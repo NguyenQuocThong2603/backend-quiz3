@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import findDefectiveCoin from './findDefectiveCoin.js';
 
 const NUMBER_OF_COINS = 12;
 const NORMAL_WEIGHT = 1;
@@ -9,7 +10,6 @@ const LIGHTER = -1;
 const EQUAL = 0;
 const isHeavier = true;
 const isLighter = false;
-
 class Scale {
   constructor() {
     let coins = [];
@@ -34,7 +34,7 @@ class Scale {
     this.isChecked = false;
   }
 
-  weight(lefts, rights) {
+  weigh(lefts, rights) {
     const weightOfLefts = lefts.map(item => this.coins[item].weightOfCoin);
     const weightOfRights = rights.map(item => this.coins[item].weightOfCoin);
 
@@ -82,3 +82,16 @@ class Scale {
     return false;
   }
 }
+
+function runAlgorithm() {
+  let count = 0;
+  for (let i = 0; i < 10000; i += 1) {
+    const scale = new Scale();
+    const { index, heavierOrLighter } = findDefectiveCoin(scale);
+    if (!scale.checkResult(index, heavierOrLighter)) {
+      count += 1;
+    }
+  }
+  console.log(count);
+}
+runAlgorithm();
