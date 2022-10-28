@@ -15,22 +15,25 @@ function findDefectiveCoin(scale) {
   // if the result is equal
   if (resultOf4CoinsLeft === resultOf4CoinsRight) {
     // choose 3 coins in 1 of 2 group that was weighed and 3 coins of group that wasn't weighed
-    const [group3CoinsWeighed, coinRemainingOfGroup3CoinWeighed] = _.chunk(group1, 3);
-    const [group3CoinsNotWeighed, coinRemainingOfGroup3CoinNotWeighed] = _.chunk(group3, 3);
+    const [group3CoinsWeighed, coinRemainingOfGroup4CoinsWeighed] = _.chunk(group1, 3);
+    const [group3CoinsNotWeighed, coinRemainingOfGroup4CoinsNotWeighed] = _.chunk(group3, 3);
 
     // weigh 2 groups 3 coins
-    const { left: resultOf3CoinsLeft, right: resultOf3CoinsRight } = scale.weigh(group3CoinsWeighed, group3CoinsNotWeighed);
+    const { left: resultOf3CoinsLeft, right: resultOf3CoinsRight } = scale.weigh(
+      group3CoinsWeighed,
+      group3CoinsNotWeighed,
+    );
 
     // if the result of weighing 2 groups 3 coins is equal
     if (resultOf3CoinsLeft === resultOf3CoinsRight) {
-      const { right } = scale.weigh(
-        coinRemainingOfGroup3CoinWeighed,
-        coinRemainingOfGroup3CoinNotWeighed,
+      const { right: coinRight } = scale.weigh(
+        coinRemainingOfGroup4CoinsWeighed,
+        coinRemainingOfGroup4CoinsNotWeighed,
       );
-      if (right < NORMAL_WEIGHT) {
-        return { index: coinRemainingOfGroup3CoinNotWeighed, heavierOrLighter: LIGHTER };
+      if (coinRight < NORMAL_WEIGHT) {
+        return { index: coinRemainingOfGroup4CoinsNotWeighed, heavierOrLighter: LIGHTER };
       }
-      return { index: coinRemainingOfGroup3CoinNotWeighed, heavierOrLighter: HEAVIER };
+      return { index: coinRemainingOfGroup4CoinsNotWeighed, heavierOrLighter: HEAVIER };
     }
     // if the result of weighing 2 groups 3 coins is not equal
     let isLeftHeavier = false;
@@ -38,13 +41,25 @@ function findDefectiveCoin(scale) {
     if (resultOf3CoinsLeft > resultOf3CoinsRight) {
       isLeftHeavier = true;
     }
-    return checkWeigh3Coins(
-      scale,
-      isLeftHeavier,
-      coin1,
-      coin2,
-      coin3,
-    );
+    if (isLeftHeavier) {
+      const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
+      if (resultCoinLeft === resultCoinRight) {
+        return { index: coin3, heavierOrLighter: LIGHTER };
+      }
+      if (resultCoinLeft > resultCoinRight) {
+        return { index: coin2, heavierOrLighter: LIGHTER };
+      }
+      return { index: coin1, heavierOrLighter: LIGHTER };
+    }
+
+    const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
+    if (resultCoinLeft === resultCoinRight) {
+      return { index: coin3, heavierOrLighter: HEAVIER };
+    }
+    if (resultCoinLeft > resultCoinRight) {
+      return { index: coin1, heavierOrLighter: HEAVIER };
+    }
+    return { index: coin2, heavierOrLighter: HEAVIER };
   }
   // if the result of weigh 4 coins is not equal
   if (resultOf4CoinsLeft < resultOf4CoinsRight) {
@@ -90,34 +105,6 @@ function findDefectiveCoin(scale) {
     return { index: coin3, heavierOrLighter: LIGHTER };
   }
   return { index: coin2, heavierOrLighter: LIGHTER };
-}
-
-function checkWeigh3Coins(
-  scale,
-  isLeftHeavier,
-  coin1,
-  coin2,
-  coin3,
-) {
-  if (isLeftHeavier) {
-    const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
-    if (resultCoinLeft === resultCoinRight) {
-      return { index: coin3, heavierOrLighter: LIGHTER };
-    }
-    if (resultCoinLeft > resultCoinRight) {
-      return { index: coin2, heavierOrLighter: LIGHTER };
-    }
-    return { index: coin1, heavierOrLighter: LIGHTER };
-  }
-
-  const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
-  if (resultCoinLeft === resultCoinRight) {
-    return { index: coin3, heavierOrLighter: HEAVIER };
-  }
-  if (resultCoinLeft > resultCoinRight) {
-    return { index: coin1, heavierOrLighter: HEAVIER };
-  }
-  return { index: coin2, heavierOrLighter: HEAVIER };
 }
 
 export default findDefectiveCoin;
