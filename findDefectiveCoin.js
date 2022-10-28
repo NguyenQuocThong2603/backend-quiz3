@@ -4,7 +4,7 @@ const LIGHTER = false;
 const HEAVIER = true;
 const NORMAL_WEIGHT = 0;
 function findDefectiveCoin(scale) {
-  // split 12 coins into 3 groups 4 coin;
+  // divide 12 coins into 3 groups 4 coin;
   let group1 = [0, 1, 2, 3];
   let group2 = [4, 5, 6, 7];
   const group3 = [8, 9, 10, 11];
@@ -38,43 +38,32 @@ function findDefectiveCoin(scale) {
     // if the result of weighing 2 groups 3 coins is not equal
     let isLeftHeavier = false;
     const [coin1, coin2, coin3] = _.chunk(group3CoinsNotWeighed, 1);
+    const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
     if (resultOf3CoinsLeft > resultOf3CoinsRight) {
       isLeftHeavier = true;
     }
-    if (isLeftHeavier) {
-      const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
-      if (resultCoinLeft === resultCoinRight) {
-        return { index: coin3, heavierOrLighter: LIGHTER };
-      }
-      if (resultCoinLeft > resultCoinRight) {
-        return { index: coin2, heavierOrLighter: LIGHTER };
-      }
-      return { index: coin1, heavierOrLighter: LIGHTER };
-    }
-
-    const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
-    if (resultCoinLeft === resultCoinRight) {
-      return { index: coin3, heavierOrLighter: HEAVIER };
-    }
-    if (resultCoinLeft > resultCoinRight) {
-      return { index: coin1, heavierOrLighter: HEAVIER };
-    }
-    return { index: coin2, heavierOrLighter: HEAVIER };
+    // weigh 2 coin in group was'n weighed
+    return check3Coin(coin1, coin2, coin3, isLeftHeavier, resultCoinLeft, resultCoinRight);
   }
-  // if the result of weigh 4 coins is not equal
+
+  // if the result of weighing 4 coins is not equal
   if (resultOf4CoinsLeft < resultOf4CoinsRight) {
     const temp = group1;
     group1 = group2;
     group2 = temp;
   }
+  // Divide 4 coins of each side into 2 groups of 2 coins
   const [group1Of2CoinsLeft, group2Of2CoinsLeft] = _.chunk(group1, 2);
   const [group1Of2CoinsRight, group2Of2CoinsRight] = _.chunk(group2, 2);
 
+  // divide 2 coin of left side into two group
   const [firstCoinOfGroup2CoinOne, secondCoinOfGroup2CoinTwo] = _.chunk(group1Of2CoinsLeft, 1);
 
+  // Create 2 two by choosing 2 coins on the right and 1 coin on the left into a group
   let group3CoinsLeft = group1Of2CoinsRight.concat(firstCoinOfGroup2CoinOne);
   let group3CoinsRight = group2Of2CoinsRight.concat(secondCoinOfGroup2CoinTwo);
 
+  // weigh two group after creating
   const { left: resultOf3CoinsLeft, right: resultOf3CoinsRight } = scale.weigh(group3CoinsLeft, group3CoinsRight);
 
   if (resultOf3CoinsLeft === resultOf3CoinsRight) {
@@ -107,4 +96,13 @@ function findDefectiveCoin(scale) {
   return { index: coin2, heavierOrLighter: LIGHTER };
 }
 
+function check3Coin(coin1, coin2, coin3, isLeftHeavier, resultCoinLeft, resultCoinRight) {
+  if (resultCoinLeft === resultCoinRight) {
+    return isLeftHeavier ? { index: coin3, heavierOrLighter: LIGHTER } : { index: coin3, heavierOrLighter: HEAVIER };
+  }
+  if (resultCoinLeft > resultCoinRight) {
+    return isLeftHeavier ? { index: coin2, heavierOrLighter: LIGHTER } : { index: coin1, heavierOrLighter: HEAVIER };
+  }
+  return isLeftHeavier ? { index: coin1, heavierOrLighter: LIGHTER } : { index: coin2, heavierOrLighter: HEAVIER };
+}
 export default findDefectiveCoin;
