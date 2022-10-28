@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import findDefectiveCoin from './findDefectiveCoin.js';
+import findDefectiveCoin2 from './findDefectiveCoin2.js';
 
 const NUMBER_OF_COINS = 12;
 const NORMAL_WEIGHT = 1;
@@ -85,9 +86,9 @@ class Scale {
 
 function testFindDefectiveCoin() {
   let count = 0;
-  for (let i = 0; i < 10000; i += 1) {
+  for (let i = 0; i < 10; i += 1) {
     const scale = new Scale();
-    const { index, heavierOrLighter } = findDefectiveCoin(scale);
+    const { index, heavierOrLighter } = findDefectiveCoin2(scale);
     if (!scale.checkResult(index, heavierOrLighter)) {
       count += 1;
     }

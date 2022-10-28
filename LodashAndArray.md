@@ -1,8 +1,10 @@
 # Table of Contents
-
+ * ### [Array](#Array)
+   * ### [Property](#Property)
+  
 # Array
 
-> ## Property
+ > ## Property
 
 * Arrays are resizable and can contain a mix of different data types.
 
