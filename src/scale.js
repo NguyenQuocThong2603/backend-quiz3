@@ -86,7 +86,7 @@ class Scale {
 
 function testFindDefectiveCoin() {
   let count = 0;
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < 1000; i += 1) {
     const scale = new Scale();
     const { index, heavierOrLighter } = findDefectiveCoin2(scale);
     if (!scale.checkResult(index, heavierOrLighter)) {

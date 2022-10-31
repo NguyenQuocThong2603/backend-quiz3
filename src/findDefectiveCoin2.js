@@ -24,8 +24,14 @@ function findDefectiveCoinRecursive(scale, i, groups, firstWeigh) {
       if (result3CoinsWeighed === result3CoinsNotWeighed) {
         return check3Coin(scale, result3CoinsLeft, result3CoinsRight, groups[i]);
       }
-
-      return check3Coin(scale, result3CoinsWeighed, result3CoinsNotWeighed, groups[0]);
+      if (result3CoinsLeft > result3CoinsRight && result3CoinsWeighed > result3CoinsNotWeighed) {
+        const isHeavier = true;
+        return check3CoinKnowHeavierOrLighter(scale, isHeavier, groups[0]);
+      }
+      if (result3CoinsLeft < result3CoinsRight && result3CoinsWeighed < result3CoinsNotWeighed) {
+        const isHeavier = false;
+        return check3CoinKnowHeavierOrLighter(scale, isHeavier, groups[0]);
+      }
     }
 
     return check3Coin(scale, result3CoinsLeft, result3CoinsRight, groups[i]);
@@ -50,5 +56,17 @@ function check3Coin(scale, result3CoinsLeft, result3CoinsRight, group) {
     return isLeftHeavier ? { index: coin2, heavierOrLighter: LIGHTER } : { index: coin1, heavierOrLighter: HEAVIER };
   }
   return isLeftHeavier ? { index: coin1, heavierOrLighter: LIGHTER } : { index: coin2, heavierOrLighter: HEAVIER };
+}
+
+function check3CoinKnowHeavierOrLighter(scale, isHeavier, group) {
+  const [coin1, coin2, coin3] = _.chunk(group);
+  const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
+  if (resultCoinLeft === resultCoinRight) {
+    return isHeavier ? { index: coin3, heavierOrLighter: HEAVIER } : { index: coin3, heavierOrLighter: LIGHTER };
+  }
+  if (resultCoinLeft > resultCoinRight) {
+    return isHeavier ? { index: coin1, heavierOrLighter: HEAVIER } : { index: coin2, heavierOrLighter: LIGHTER };
+  }
+  return isHeavier ? { index: coin2, heavierOrLighter: HEAVIER } : { index: coin1, heavierOrLighter: LIGHTER };
 }
 export default findDefectiveCoin2;
