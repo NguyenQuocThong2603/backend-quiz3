@@ -25,8 +25,11 @@
     * [Array.sort()](#arraysort)
   
 * ## [Lodash](#lodash-1)  
+  
   * [Lodash Methods](#lodash-methods)
+
     * [_.chunk](#-_chunk-array-size1)
+
 ## Array
 
  >### Property
@@ -53,9 +56,9 @@ person[0];         // Will return undefined
 
 > ### Methods
 
-#### &nbsp;&nbsp;&nbsp; **Array.from()**
+#### **Array.from()**
 
-&nbsp;&nbsp;&nbsp; The  `Array.from()` static method creates a new, shallow-copied Array instance from an iterable or array-like object.
+The  `Array.from()` static method creates a new, shallow-copied Array instance from an iterable or array-like object.
 
 ```js
 console.log(Array.from('foo'));
@@ -65,9 +68,9 @@ console.log(Array.from([1, 2, 3], x => x + x));
 // expected output: Array [2, 4, 6]
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.concat()**
+#### **Array.concat()**
 
-&nbsp;&nbsp;&nbsp; The `concat()` method is used to merge two or more arrays. This method does not change the existing arrays, but instead returns a new array.
+The `concat()` method is used to merge two or more arrays. This method does not change the existing arrays, but instead returns a new array.
 
 ```js
 const array1 = ['a', 'b', 'c'];
@@ -78,9 +81,9 @@ console.log(array3);
 // expected output: Array ["a", "b", "c", "d", "e", "f"]
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.every()**
+#### **Array.every()**
 
-&nbsp;&nbsp;&nbsp; The `every()` method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value.
+The `every()` method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value.
 
 ```js
 const isBelowThreshold = (currentValue) => currentValue < 40;
@@ -91,9 +94,9 @@ console.log(array1.every(isBelowThreshold));
 // expected output: true
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.fill()**
+#### **Array.fill()**
 
-&nbsp;&nbsp;&nbsp; The `fill()` method changes all elements in an array to a static value, from a start index (default 0) to an end index (default array.length). It returns the &nbsp;&nbsp;&nbsp;&nbsp;modified array.
+The `fill()` method changes all elements in an array to a static value, from a start index (default 0) to an end index (default array.length). It returns the modified array.
 
 ```js
 const array1 = [1, 2, 3, 4];
@@ -111,9 +114,9 @@ console.log(array1.fill(6));
 // expected output: true
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.filter()**
+#### **Array.filter()**
 
-&nbsp;&nbsp;&nbsp; The `filter()` method creates a shallow copy of a portion of a given array, filtered down to just the elements from the given array that pass the test &nbsp;&nbsp;&nbsp;&nbsp;implemented by the provided function.
+The `filter()` method creates a shallow copy of a portion of a given array, filtered down to just the elements from the given array that pass the testimplemented by the provided function.
 
 ```js
 const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
@@ -124,9 +127,9 @@ console.log(result);
 // expected output: Array ["exuberant", "destruction", "present"]
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.find()**
+#### **Array.find()**
 
-&nbsp;&nbsp;&nbsp; The `find()` method returns the first element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, &nbsp;&nbsp;&nbsp;&nbsp;undefined is returned.
+The `find()` method returns the first element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
 
 ```js
 const array1 = [5, 12, 8, 130, 44];
@@ -137,9 +140,9 @@ console.log(found);
 // expected output: 12
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.findLast()**
-
-&nbsp;&nbsp;&nbsp; The `findLast()` method iterates the array in reverse order and returns the value of the first element that satisfies the provided testing function. If no &nbsp;&nbsp;&nbsp;&nbsp;elements satisfy the testing function, undefined is returned.
+#### **Array.findLast()**
+ 
+The `findLast()` method iterates the array in reverse order and returns the value of the first element that satisfies the provided testing function. If no elements satisfy the testing function, undefined is returned.
 
 ```js
 const array1 = [5, 12, 50, 130, 44];
@@ -150,9 +153,9 @@ console.log(found);
 // expected output: 130
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.includes()**
-
-&nbsp;&nbsp;&nbsp; The `includes()` method determines whether an array includes a certain value among its entries, returning true or false as appropriate.
+#### **Array.includes()**
+ 
+The `includes()` method determines whether an array includes a certain value among its entries, returning true or false as appropriate.
 
 ```js
 const array1 = [1, 2, 3];
@@ -169,10 +172,9 @@ console.log(pets.includes('at'));
 // expected output: false
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.isArray()**
-
-&nbsp;&nbsp;&nbsp; `Array.isArray()` checks if the passed value is an Array. It does not check the value's prototype 
-chain, nor does it rely on the Array constructor it is &nbsp;&nbsp;&nbsp;attached to. It returns true for any value that was created using the array literal syntax or the Array constructor. This makes it safe to use with cross-realm &nbsp;&nbsp;&nbsp;objects, where the identity of the Array constructor is different and would therefore cause instanceof Array to fail.
+#### **Array.isArray()**
+ 
+`Array.isArray()` checks if the passed value is an Array. It does not check the value's prototype chain, nor does it rely on the Array constructor it isattached to. It returns true for any value that was created using the array literal syntax or the Array constructor. This makes it safe to use with cross-realmobjects, where the identity of the Array constructor is different and would therefore cause instanceof Array to fail.
 
 ```js
 // all following calls return true
@@ -199,9 +201,9 @@ Array.isArray(new Uint8Array(32));
 Array.isArray({ __proto__: Array.prototype });
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.join()**
+#### **Array.join()**
 
-&nbsp;&nbsp;&nbsp; The `join()` method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a &nbsp;&nbsp;&nbsp;&nbsp;specified separator string. If the array has only one item, then that item will be returned without using the separator.
+The `join()` method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.
 
 ```js
 const elements = ['Fire', 'Air', 'Water'];
@@ -216,9 +218,9 @@ console.log(elements.join('-'));
 // expected output: "Fire-Air-Water"
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.map()**
-
-&nbsp;&nbsp;&nbsp; The `map()` method creates a new array populated with the results of calling a provided function on every element in the calling array.
+#### **Array.map()**
+ 
+The `map()` method creates a new array populated with the results of calling a provided function on every element in the calling array.
 
 ```js
 const array1 = [1, 4, 9, 16];
@@ -230,15 +232,12 @@ console.log(map1);
 // expected output: Array [2, 8, 18, 32]
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.reduce()**
-
-&nbsp;&nbsp;&nbsp; The `reduce()` method executes a user-supplied "reducer" callback function on each element of the array, in order, passing in the return value from the &nbsp;&nbsp;&nbsp;&nbsp;calculation on the preceding element. The final result of running the reducer across all elements of the array is a single value.
-
-&nbsp;&nbsp;&nbsp;&nbsp;The first time that the callback is run there is no "return value of the previous calculation". If supplied, an initial value may be used in its place. Otherwise &nbsp;&nbsp;&nbsp;&nbsp;the array element at index 0 is used as the initial value and iteration starts from the next element (index 1 instead of index 0).
-
-&nbsp;&nbsp;&nbsp;&nbsp;Perhaps the easiest-to-understand case for `reduce()` is to return the sum of all the elements in an array:
-
-&nbsp;&nbsp;&nbsp;&nbsp;The reducer walks through the array element-by-element, at each step adding the current array value to the result from the previous step (this result is the &nbsp;&nbsp;&nbsp;&nbsp;running sum of all the previous steps) — until there are no more elements to add.
+#### **Array.reduce()**
+ 
+The `reduce()` method executes a user-supplied "reducer" callback function on each element of the array, in order, passing in the return value from the calculation on the preceding element. The final result of running the reducer across all elements of the array is a single value.
+The first time that the callback is run there is no "return value of the previous calculation". If supplied, an initial value may be used in its place. Otherwise the array element at index 0 is used as the initial value and iteration starts from the next element (index 1 instead of index 0).
+Perhaps the easiest-to-understand case for `reduce()` is to return the sum of all the elements in an array:
+The reducer walks through the array element-by-element, at each step adding the current array value to the result from the previous step (this result is the running sum of all the previous steps) — until there are no more elements to add.
 
 ```js
 const array1 = [1, 2, 3, 4];
@@ -254,9 +253,9 @@ console.log(sumWithInitial);
 // expected output: 10
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.reverse()**
+#### **Array.reverse()**
 
-&nbsp;&nbsp;&nbsp; The `reverse()` method reverses an array in place and returns the reference to the same array, the first array element now becoming the last, and the last &nbsp;&nbsp;&nbsp;&nbsp;array element becoming the first. In other words, elements order in the array will be turned towards the direction opposite to that previously stated.
+The `reverse()` method reverses an array in place and returns the reference to the same array, the first array element now becoming the last, and the last array element becoming the first. In other words, elements order in the array will be turned towards the direction opposite to that previously stated.
 
 ```js
 const array1 = ['one', 'two', 'three'];
@@ -272,9 +271,9 @@ console.log('array1:', array1);
 // expected output: "array1:" Array ["three", "two", "one"]
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.shift()**
+#### **Array.shift()**
 
-&nbsp;&nbsp;&nbsp; The `shift()` method removes the first element from an array and returns that removed element. This method changes the length of the array.
+The `shift()` method removes the first element from an array and returns that removed element. This method changes the length of the array.
 
 ```js
 const array1 = [1, 2, 3];
@@ -288,9 +287,9 @@ console.log(firstElement);
 // expected output: 1
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.slice()**
+#### **Array.slice()**
 
-&nbsp;&nbsp;&nbsp; The `slice()` method returns a shallow copy of a portion of an array into a new array object selected from `start` to `end` (end not included) where `start`  &nbsp;&nbsp;&nbsp;&nbsp;and `end` represent the index of items in that array. The original array will not be modified
+The `slice()` method returns a shallow copy of a portion of an array into a new array object selected from `start` to `end` (end not included) where `start`  and `end` represent the index of items in that array. The original array will not be modified
 
 ```js
 const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
@@ -314,9 +313,9 @@ console.log(animals.slice());
 // expected output: Array ["ant", "bison", "camel", "duck", "elephant"]
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.some()**
+#### **Array.some()**
 
-&nbsp;&nbsp;&nbsp; The `some()` method tests whether at least one element in the array passes the test implemented by the provided function. It returns true if, in the array, it &nbsp;&nbsp;&nbsp;&nbsp;finds an element for which the provided function returns true; otherwise it returns false. It doesn't modify the array.
+The `some()` method tests whether at least one element in the array passes the test implemented by the provided function. It returns true if, in the array, it finds an element for which the provided function returns true; otherwise it returns false. It doesn't modify the array.
 
 ```js
 const array = [1, 2, 3, 4, 5];
@@ -328,9 +327,9 @@ console.log(array.some(even));
 // expected output: true
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.splice()**
+#### **Array.splice()**
 
-&nbsp;&nbsp;&nbsp; The `splice()` method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place. To access part of &nbsp;&nbsp;&nbsp;&nbsp;an array without modifying it, see [slice](#arrayslice).
+The `splice()` method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place. To access part of an array without modifying it, see [slice](#arrayslice).
 
 ```js
 const months = ['Jan', 'March', 'April', 'June'];
@@ -345,11 +344,10 @@ console.log(months);
 // expected output: Array ["Jan", "Feb", "March", "April", "May"]
 ```
 
-#### &nbsp;&nbsp;&nbsp; **Array.sort()**
+#### **Array.sort()**
 
-&nbsp;&nbsp;&nbsp; The `sort()` method sorts the elements of an array in place and returns the reference to the same array, now sorted. The default sort order is ascending, &nbsp;&nbsp;&nbsp;&nbsp;built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
-
-&nbsp;&nbsp;&nbsp;&nbsp;The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
+The `sort()` method sorts the elements of an array in place and returns the reference to the same array, now sorted. The default sort order is ascending, built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.
+The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.
 
 ```js
 const months = ['March', 'Jan', 'Feb', 'Dec'];
@@ -367,11 +365,9 @@ console.log(array1);
 
 > ### Lodash Methods
 
-#### &nbsp;&nbsp;&nbsp; **_.chunk (array, \[size=1\])**
+#### **_.chunk (array, \[size=1\])**
 
-&nbsp;&nbsp;&nbsp;
-
-&nbsp;&nbsp;&nbsp; Creates an array of elements split into groups the length of size. If array can't be split evenly, the final chunk will be the remaining elements.
+ Creates an array of elements split into groups the length of size. If array can't be split evenly, the final chunk will be the remaining elements.
 
 ```js
 _.chunk(['a', 'b', 'c', 'd'], 2);
