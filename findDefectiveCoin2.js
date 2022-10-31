@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 const LIGHTER = false;
 const HEAVIER = true;
+
 function findDefectiveCoin2(scale) {
   const index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   const groups = _.chunk(index, 3);
@@ -15,6 +16,7 @@ function findDefectiveCoinRecursive(scale, i, groups, firstWeigh) {
   if (firstWeigh === true) {
     isFirstWeigh = true;
   }
+
   const { left: result3CoinsLeft, right: result3CoinsRight } = scale.weigh(groups[0], groups[i]);
   if (result3CoinsLeft !== result3CoinsRight) {
     if (isFirstWeigh) {
@@ -22,6 +24,7 @@ function findDefectiveCoinRecursive(scale, i, groups, firstWeigh) {
       if (result3CoinsWeighed === result3CoinsNotWeighed) {
         return check3Coin(scale, result3CoinsLeft, result3CoinsRight, groups[i]);
       }
+
       return check3Coin(scale, result3CoinsWeighed, result3CoinsNotWeighed, groups[0]);
     }
 
