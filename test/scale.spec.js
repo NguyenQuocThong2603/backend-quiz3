@@ -38,3 +38,27 @@ describe('Test weigh function of scale', () => {
     }
   });
 });
+
+describe('Test checkResult function of scale', () => {
+  it('it should return true if the index of defective coin is correct', () => {
+    const scale = new Scale();
+    const indexOfDefectiveCoin = scale.coins.findIndex(coin => coin.weightOfCoin !== 1);
+    const weightOfDefectiveCoin = scale.coins.find(coin => coin.weightOfCoin !== 1);
+    let isHeavier = false;
+    if (weightOfDefectiveCoin > 1) {
+      isHeavier = true;
+    }
+    scale.checkResult(indexOfDefectiveCoin, isHeavier).should.equal(true);
+  });
+
+  it('it should return false if the index of defective coin is wrong', () => {
+    const scale = new Scale();
+    const indexOfNormalCoin = scale.coins.findIndex(coin => coin.weightOfCoin === 1);
+    const weightOfDefectiveCoin = scale.coins.find(coin => coin.weightOfCoin !== 1);
+    let isHeavier = false;
+    if (weightOfDefectiveCoin > 1) {
+      isHeavier = true;
+    }
+    scale.checkResult(indexOfNormalCoin, isHeavier).should.equal(false);
+  });
+});
