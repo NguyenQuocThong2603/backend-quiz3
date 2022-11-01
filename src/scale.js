@@ -93,6 +93,7 @@ function testFindDefectiveCoin() {
       count += 1;
     }
   }
-  console.log(count);
 }
 testFindDefectiveCoin();
+
+export default Scale;
