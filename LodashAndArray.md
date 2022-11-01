@@ -28,7 +28,27 @@
   
   * [Lodash Methods](#lodash-methods)
 
-    * [_.chunk](#-_chunk-array-size1)
+    * [_.chunk](#_chunk-array-size1)
+    * [_.compact](#_compact-array)
+    * [_.concat](#_concat-array-values)
+    * [_.difference](#_difference-array-values)
+    * [_.differenceBy](#_differenceby-array-valuesiteratee--_identity)
+    * [_.differenceWith](#_differencewith-array-valuescomparator)
+    * [_.drop](#_drop-array-n1)
+    * [_.dropWhile](#_dropwhile-array-predicate--_identity)
+    * [_.fill](#_fill-array-valuestart0endarraylength)
+    * [_.findIndex](#_findindex-array-predicate--_identity-fromindex--0)
+    * [_.flattenDepth](#_flattendeptharray-depth1)
+    * [_.fromPairs](#_frompairspairs)
+    * [_.head](#_headarray)
+    * [_.initial](#_initialarray)
+    * [_.intersection](#_intersectionarrays)
+    * [_.last](#_lastarray)
+    * [_.nth](#_ntharrayn--0)
+    * [_.pull](#_pullallarray-values)
+    * [_.remove](#_removearray-predicate--_identity)
+    * [_.sortedIndex](#_sortedindexarray-value)
+    * [_.tail](#_tailarray)
 
 ## Array
 
@@ -141,7 +161,7 @@ console.log(found);
 ```
 
 #### **Array.findLast()**
- 
+
 The `findLast()` method iterates the array in reverse order and returns the value of the first element that satisfies the provided testing function. If no elements satisfy the testing function, undefined is returned.
 
 ```js
@@ -154,7 +174,7 @@ console.log(found);
 ```
 
 #### **Array.includes()**
- 
+
 The `includes()` method determines whether an array includes a certain value among its entries, returning true or false as appropriate.
 
 ```js
@@ -173,7 +193,7 @@ console.log(pets.includes('at'));
 ```
 
 #### **Array.isArray()**
- 
+
 `Array.isArray()` checks if the passed value is an Array. It does not check the value's prototype chain, nor does it rely on the Array constructor it isattached to. It returns true for any value that was created using the array literal syntax or the Array constructor. This makes it safe to use with cross-realmobjects, where the identity of the Array constructor is different and would therefore cause instanceof Array to fail.
 
 ```js
@@ -219,7 +239,7 @@ console.log(elements.join('-'));
 ```
 
 #### **Array.map()**
- 
+
 The `map()` method creates a new array populated with the results of calling a provided function on every element in the calling array.
 
 ```js
@@ -233,7 +253,7 @@ console.log(map1);
 ```
 
 #### **Array.reduce()**
- 
+
 The `reduce()` method executes a user-supplied "reducer" callback function on each element of the array, in order, passing in the return value from the calculation on the preceding element. The final result of running the reducer across all elements of the array is a single value.
 The first time that the callback is run there is no "return value of the previous calculation". If supplied, an initial value may be used in its place. Otherwise the array element at index 0 is used as the initial value and iteration starts from the next element (index 1 instead of index 0).
 Perhaps the easiest-to-understand case for `reduce()` is to return the sum of all the elements in an array:
@@ -367,7 +387,7 @@ console.log(array1);
 
 #### **_.chunk (array, \[size=1\])**
 
- Creates an array of elements split into groups the length of size. If array can't be split evenly, the final chunk will be the remaining elements.
+Creates an array of elements split into groups the length of size. If array can't be split evenly, the final chunk will be the remaining elements.
 
 ```js
 _.chunk(['a', 'b', 'c', 'd'], 2);
@@ -375,4 +395,287 @@ _.chunk(['a', 'b', 'c', 'd'], 2);
  
 _.chunk(['a', 'b', 'c', 'd'], 3);
 // => [['a', 'b', 'c'], ['d']]
+```
+
+#### **_.compact (array)**
+
+Creates an array with all falsey values removed. The values false, null, 0, "", undefined, and NaN are falsey.
+
+```js
+_.compact([0, 1, false, 2, '', 3]);
+// => [1, 2, 3]
+```
+
+#### **_.concat (array, [values])**
+
+Creates a new array concatenating array with any additional arrays and/or values.
+
+```js
+var array = [1];
+var other = _.concat(array, 2, [3], [[4]]);
+ 
+console.log(other);
+// => [1, 2, 3, [4]]
+ 
+console.log(array);
+// => [1]
+```
+
+#### **_.difference (array, [values])**
+
+Creates an array of array values not included in the other given arrays using SameValueZero for equality comparisons. The order and references of result values are determined by the first array.
+
+**Note**: Unlike `_.pullAll`, this method returns a new array.
+
+```js
+_.difference([2, 1], [2, 3]);
+// => [1]
+```
+
+#### **_.differenceBy (array, [values],[iteratee = _.identity])**
+
+This method is like _.difference except that it accepts iteratee which is invoked for each element of array and values to generate the criterion by which they're compared. The order and references of result values are determined by the first array. The iteratee is invoked with one argument:
+(value).
+
+**Note**: Unlike `_.pullAllBy`, this method returns a new array.
+
+```js
+_.differenceBy([2.1, 1.2], [2.3, 3.4], Math.floor);
+// => [1.2]
+ 
+// The `_.property` iteratee shorthand.
+_.differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
+// => [{ 'x': 2 }]
+```
+
+#### **_.differenceWith (array, [values],[comparator])**
+
+This method is like _.difference except that it accepts comparator which is invoked to compare elements of array to values. The order and references of result values are determined by the first array. The comparator is invoked with two arguments: (arrVal, othVal).
+
+**Note**: Unlike `_.pullAllWith`, this method returns a new array.
+
+```js
+var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
+ 
+_.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
+// => [{ 'x': 2, 'y': 1 }]
+```
+
+#### **_.drop (array, [n=1])**
+
+Creates a slice of array with n elements dropped from the beginning.
+
+```js
+_.drop([1, 2, 3]);
+// => [2, 3]
+ 
+_.drop([1, 2, 3], 2);
+// => [3]
+ 
+_.drop([1, 2, 3], 5);
+// => []
+ 
+_.drop([1, 2, 3], 0);
+// => [1, 2, 3]
+```
+
+#### **_.dropWhile (array, [predicate = _.identity])**
+
+Creates a slice of array excluding elements dropped from the beginning. Elements are dropped until predicate returns falsey. The predicate is invoked with three arguments: (value, index, array).
+
+```js
+var users = [
+  { 'user': 'barney',  'active': false },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': true }
+];
+ 
+_.dropWhile(users, function(o) { return !o.active; });
+// => objects for ['pebbles']
+ 
+// The `_.matches` iteratee shorthand.
+_.dropWhile(users, { 'user': 'barney', 'active': false });
+// => objects for ['fred', 'pebbles']
+ 
+// The `_.matchesProperty` iteratee shorthand.
+_.dropWhile(users, ['active', false]);
+// => objects for ['pebbles']
+ 
+// The `_.property` iteratee shorthand.
+_.dropWhile(users, 'active');
+// => objects for ['barney', 'fred', 'pebbles']
+```
+
+#### **_.fill (array, value,[start=0],[end=array.length])**
+
+Fills elements of array with value from start up to, but not including, end.
+
+**Note**: This method mutates array.
+
+```js
+var array = [1, 2, 3];
+ 
+_.fill(array, 'a');
+console.log(array);
+// => ['a', 'a', 'a']
+ 
+_.fill(Array(3), 2);
+// => [2, 2, 2]
+ 
+_.fill([4, 6, 8, 10], '*', 1, 3);
+// => [4, '*', '*', 10]
+```
+
+#### **_.findIndex (array, [predicate = _.identity], [fromIndex = 0])**
+
+This method is like _.find except that it returns the index of the first element predicate returns truthy for instead of the element itself.
+
+```js
+var users = [
+  { 'user': 'barney',  'active': false },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': true }
+];
+ 
+_.findIndex(users, function(o) { return o.user == 'barney'; });
+// => 0
+ 
+// The `_.matches` iteratee shorthand.
+_.findIndex(users, { 'user': 'fred', 'active': false });
+// => 1
+ 
+// The `_.matchesProperty` iteratee shorthand.
+_.findIndex(users, ['active', false]);
+// => 0
+ 
+// The `_.property` iteratee shorthand.
+_.findIndex(users, 'active');
+// => 2
+```
+
+#### **_.flattenDepth(array, [depth=1])**
+
+Recursively flatten array up to depth times.
+
+```js
+var array = [1, [2, [3, [4]], 5]];
+ 
+_.flattenDepth(array, 1);
+// => [1, 2, [3, [4]], 5]
+ 
+_.flattenDepth(array, 2);
+// => [1, 2, 3, [4], 5]
+```
+
+#### **_.fromPairs(pairs)**
+
+The inverse of _.toPairs; this method returns an object composed from key-value pairs.
+
+```js
+_.fromPairs([['a', 1], ['b', 2]]);
+// => { 'a': 1, 'b': 2 }
+```
+
+#### **_.head(array)**
+
+Gets the first element of array.
+
+```js
+_.head([1, 2, 3]);
+// => 1
+ 
+_.head([]);
+// => undefined
+```
+
+#### **_.initial(array)**
+
+Gets all but the last element of array.
+
+```js
+_.initial([1, 2, 3]);
+// => [1, 2]
+```
+
+#### **_.intersection([arrays])**
+
+Creates an array of unique values that are included in all given arrays using SameValueZero for equality comparisons. The order and references of result values are determined by the first array.
+
+```js
+_.intersection([2, 1], [2, 3]);
+// => [2]
+```
+
+#### **_.last(array)**
+
+Gets the last element of array.
+
+```js
+_.last([1, 2, 3]);
+// => 3
+```
+
+#### **_.nth(array,[n = 0])**
+
+Gets the element at index n of array. If n is negative, the nth element from the end is returned.
+
+```js
+var array = ['a', 'b', 'c', 'd'];
+ 
+_.nth(array, 1);
+// => 'b'
+ 
+_.nth(array, -2);
+// => 'c';
+```
+
+#### **_.pullAll(array, values)**
+
+Removes all given values from array using SameValueZero for equality comparisons.
+
+**Note**: Unlike `_.difference`, this method mutates array. Use _.remove to remove elements from an array by predicate.
+
+```js
+var array = ['a', 'b', 'c', 'a', 'b', 'c'];
+ 
+_.pull(array, 'a', 'c');
+console.log(array);
+// => ['b', 'b']
+```
+
+#### **_.remove(array, [predicate = _.identity])**
+
+Removes all elements from array that predicate returns truthy for and returns an array of the removed elements. The predicate is invoked with three arguments: (value, index, array).
+
+**Note**: Unlike `_.filter`, this method mutates array. Use `_.pull` to pull elements from an array by value.
+
+```js
+var array = [1, 2, 3, 4];
+var evens = _.remove(array, function(n) {
+  return n % 2 == 0;
+});
+ 
+console.log(array);
+// => [1, 3]
+ 
+console.log(evens);
+// => [2, 4]
+```
+
+#### **_.sortedIndex(array, value)**
+
+Uses a binary search to determine the lowest index at which value should be inserted into array in order to maintain its sort order.
+
+```js
+_.sortedIndex([30, 50], 40);
+// => 1
+```
+
+#### **_.tail(array)**
+
+Gets all but the first element of array.
+
+```js
+_.tail([1, 2, 3]);
+// => [2, 3]
 ```

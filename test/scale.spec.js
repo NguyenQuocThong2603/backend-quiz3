@@ -2,6 +2,7 @@ import _ from 'lodash';
 import chai from 'chai';
 import Scale from '../src/scale.js';
 
+const NORMAL_WEIGHT = 1;
 const should = chai.should();
 describe('Test constructor of scale', () => {
   it('it should create a scale and 11 normal coins and 1 defective coin', () => {
@@ -42,10 +43,11 @@ describe('Test weigh function of scale', () => {
 describe('Test checkResult function of scale', () => {
   it('it should return true if the index of defective coin is correct', () => {
     const scale = new Scale();
-    const indexOfDefectiveCoin = scale.coins.findIndex(coin => coin.weightOfCoin !== 1);
-    const weightOfDefectiveCoin = scale.coins.find(coin => coin.weightOfCoin !== 1);
+    const indexOfDefectiveCoin = scale.coins.findIndex(coin => coin.weightOfCoin !== NORMAL_WEIGHT);
+    const defectiveCoin = scale.coins.find(coin => coin.weightOfCoin !== NORMAL_WEIGHT);
+    const weightOfDefectiveCoin = defectiveCoin.weightOfCoin;
     let isHeavier = false;
-    if (weightOfDefectiveCoin > 1) {
+    if (weightOfDefectiveCoin > NORMAL_WEIGHT) {
       isHeavier = true;
     }
     scale.checkResult(indexOfDefectiveCoin, isHeavier).should.equal(true);
@@ -53,8 +55,9 @@ describe('Test checkResult function of scale', () => {
 
   it('it should return false if the index of defective coin is wrong', () => {
     const scale = new Scale();
-    const indexOfNormalCoin = scale.coins.findIndex(coin => coin.weightOfCoin === 1);
-    const weightOfDefectiveCoin = scale.coins.find(coin => coin.weightOfCoin !== 1);
+    const indexOfNormalCoin = scale.coins.findIndex(coin => coin.weightOfCoin === NORMAL_WEIGHT);
+    const normalCoin = scale.coins.find(coin => coin.weightOfCoin !== NORMAL_WEIGHT);
+    const weightOfDefectiveCoin = normalCoin.weightOfCoin;
     let isHeavier = false;
     if (weightOfDefectiveCoin > 1) {
       isHeavier = true;
