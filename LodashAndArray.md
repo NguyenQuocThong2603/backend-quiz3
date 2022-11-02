@@ -26,7 +26,7 @@
   
 * ## [Lodash](#lodash-1)  
   
-  * [Lodash Methods](#lodash-methods)
+  * [Lodash Array Methods](#lodash-array-methods)
 
     * [_.chunk](#_chunk-array-size1)
     * [_.compact](#_compact-array)
@@ -49,6 +49,29 @@
     * [_.remove](#_removearray-predicate--_identity)
     * [_.sortedIndex](#_sortedindexarray-value)
     * [_.tail](#_tailarray)
+    * [_.take](#_takearray-n1)
+    * [_.union](#_unionarrays)
+    * [_.uniq](#_uniqarray)
+    * [_.zip](#_ziparrays)
+    * [_.zipObject](#_zipobjectarrays)
+    * [_.xor](#_xorarrays)
+
+  * [Lodash Object Methods](#lodash-object-methods)
+    * [_.at](#_atobjectpaths)
+    * [_.default](#_defaultobjectsources)
+    * [_.findKey](#_findkeyobjectpredicate--_identity)
+    * [_.forIn](#_forinobjectiteratee--_identity)
+    * [_.forOwn](#_forownobjectiteratee--_identity)
+    * [_.get](#_getobject-path-defaultvalue)
+    * [_.has](#_hasobject-path)
+    * [_.invert](#_invertobject)
+    * [_.invoke](#_invokeobject-path-args)
+    * [_.keys](#_keysobject)
+    * [_.mapValues](#_mapvaluesobject-iteratee--_identity)
+    * [_.merge](#_mergeobject-sources)
+    * [_.omit](#_omitobject-paths)
+    * [_.pick](#_pickobject-paths)
+    * [_.set](#_setobject-path-value)
 
 ## Array
 
@@ -383,7 +406,7 @@ console.log(array1);
 
 ## Lodash
 
-> ### Lodash Methods
+> ### Lodash Array Methods
 
 #### **_.chunk (array, \[size=1\])**
 
@@ -678,4 +701,354 @@ Gets all but the first element of array.
 ```js
 _.tail([1, 2, 3]);
 // => [2, 3]
+```
+
+#### **_.take(array, [n=1])**
+
+Creates a slice of array with n elements taken from the beginning.
+
+```js
+_.take([1, 2, 3]);
+// => [1]
+ 
+_.take([1, 2, 3], 2);
+// => [1, 2]
+ 
+_.take([1, 2, 3], 5);
+// => [1, 2, 3]
+ 
+_.take([1, 2, 3], 0);
+// => []
+```
+
+#### **_.union([arrays])**
+
+Creates an array of unique values, in order, from all given arrays using SameValueZero for equality comparisons.
+
+```js
+_.union([2], [1, 2]);
+// => [2, 1]
+```
+
+#### **_.uniq(array)**
+
+Creates a duplicate-free version of an array, using SameValueZero for equality comparisons, in which only the first occurrence of each element is kept. The order of result values is determined by the order they occur in the array.
+
+```js
+_.uniq([2, 1, 2]);
+// => [2, 1]
+```
+
+#### **_.zip([arrays])**
+
+Creates an array of grouped elements, the first of which contains the first elements of the given arrays, the second of which contains the second elements of the given arrays, and so on.
+
+```js
+_.zip(['a', 'b'], [1, 2], [true, false]);
+// => [['a', 1, true], ['b', 2, false]]
+```
+
+#### **_.zipObject([arrays])**
+
+This method is like `_.fromPairs`except that it accepts two arrays, one of property identifiers and one of corresponding values.
+
+```js
+_.zipObject(['a', 'b'], [1, 2]);
+// => { 'a': 1, 'b': 2 }
+```
+
+#### **_.xor([arrays])**
+
+Creates an array of unique values that is the symmetric difference of the given arrays. The order of result values is determined by the order they occur in the arrays.
+
+```js
+_.xor([2, 1], [2, 3]);
+// => [1, 3]
+```
+
+> ### Lodash Object Methods
+
+#### **_.at(object,[paths])**
+
+Creates an array of values corresponding to paths of object.
+
+```js
+var object = { 'a': [{ 'b': { 'c': 3 } }, 4] };
+ 
+_.at(object, ['a[0].b.c', 'a[1]']);
+// => [3, 4]
+```
+
+#### **_.create(object,[properties])**
+
+Creates an object that inherits from the prototype object. If a properties object is given, its own enumerable string keyed properties are assigned to the created object.
+
+```js
+function Shape() {
+  this.x = 0;
+  this.y = 0;
+}
+ 
+function Circle() {
+  Shape.call(this);
+}
+ 
+Circle.prototype = _.create(Shape.prototype, {
+  'constructor': Circle
+});
+ 
+var circle = new Circle;
+circle instanceof Circle;
+// => true
+ 
+circle instanceof Shape;
+// => true
+```
+
+#### **_.default(object,[sources])**
+
+Assigns own and inherited enumerable string keyed properties of source objects to the destination object for all destination properties that resolve to undefined. Source objects are applied from left to right. Once a property is set, additional values of the same property are ignored.
+
+**Note**: This method mutates object.
+
+```js
+_.defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
+// => { 'a': 1, 'b': 2 }
+```
+
+#### **_.findKey(object,[predicate = _.identity])**
+
+This method is like `_.find` except that it returns the key of the first element predicate returns truthy for instead of the element itself.
+
+```js
+var users = {
+  'barney':  { 'age': 36, 'active': true },
+  'fred':    { 'age': 40, 'active': false },
+  'pebbles': { 'age': 1,  'active': true }
+};
+ 
+_.findKey(users, function(o) { return o.age < 40; });
+// => 'barney' (iteration order is not guaranteed)
+ 
+// The `_.matches` iteratee shorthand.
+_.findKey(users, { 'age': 1, 'active': true });
+// => 'pebbles'
+ 
+// The `_.matchesProperty` iteratee shorthand.
+_.findKey(users, ['active', false]);
+// => 'fred'
+ 
+// The `_.property` iteratee shorthand.
+_.findKey(users, 'active');
+// => 'barney'
+```
+
+#### **_.forIn(object,[iteratee = _.identity])**
+
+Iterates over own and inherited enumerable string keyed properties of an object and invokes iteratee for each property. The iteratee is invoked with three arguments: (value, key, object). Iteratee functions may exit iteration early by explicitly returning false.
+
+```js
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.forIn(new Foo, function(value, key) {
+  console.log(key);
+});
+// => Logs 'a', 'b', then 'c' (iteration order is not guaranteed).
+```
+
+#### **_.forOwn(object,[iteratee = _.identity])**
+
+Iterates over own enumerable string keyed properties of an object and invokes iteratee for each property. The iteratee is invoked with three arguments: (value, key, object). Iteratee functions may exit iteration early by explicitly returning false.
+
+```js
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.forOwn(new Foo, function(value, key) {
+  console.log(key);
+});
+// => Logs 'a' then 'b' (iteration order is not guaranteed).
+```
+
+#### **_.get(object, path, [defaultValue])**
+
+Gets the value at path of object. If the resolved value is undefined, the defaultValue is returned in its place.
+
+```js
+var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ 
+_.get(object, 'a[0].b.c');
+// => 3
+ 
+_.get(object, ['a', '0', 'b', 'c']);
+// => 3
+ 
+_.get(object, 'a.b.c', 'default');
+// => 'default'
+```
+
+#### **_.has(object, path)**
+
+Checks if path is a direct property of object.
+
+```js
+var object = { 'a': { 'b': 2 } };
+var other = _.create({ 'a': _.create({ 'b': 2 }) });
+ 
+_.has(object, 'a');
+// => true
+ 
+_.has(object, 'a.b');
+// => true
+ 
+_.has(object, ['a', 'b']);
+// => true
+ 
+_.has(other, 'a');
+// => false
+```
+
+#### **_.invert(object)**
+
+Creates an object composed of the inverted keys and values of object. If object contains duplicate values, subsequent values overwrite property assignments of previous values.
+
+```js
+var object = { 'a': 1, 'b': 2, 'c': 1 };
+ 
+_.invert(object);
+// => { '1': 'c', '2': 'b' }
+```
+
+#### **_.invoke(object, path, [args])**
+
+Invokes the method at path of object.
+
+```js
+var object = { 'a': [{ 'b': { 'c': [1, 2, 3, 4] } }] };
+ 
+_.invoke(object, 'a[0].b.c.slice', 1, 3);
+// => [2, 3]
+```
+
+#### **_.keys(object)**
+
+Creates an array of the own enumerable property names of object.
+
+```js
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.keys(new Foo);
+// => ['a', 'b'] (iteration order is not guaranteed)
+ 
+_.keys('hi');
+// => ['0', '1']
+```
+
+#### **_.mapValues(object, [iteratee = _.identity])**
+
+Creates an object with the same keys as object and values generated by running each own enumerable string keyed property of object thru iteratee. The iteratee is invoked with three arguments:
+(value, key, object).
+
+```js
+var users = {
+  'fred':    { 'user': 'fred',    'age': 40 },
+  'pebbles': { 'user': 'pebbles', 'age': 1 }
+};
+ 
+_.mapValues(users, function(o) { return o.age; });
+// => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+ 
+// The `_.property` iteratee shorthand.
+_.mapValues(users, 'age');
+// => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+```
+
+#### **_.merge(object, [sources])**
+
+This method is like `_.assign` except that it recursively merges own and inherited enumerable string keyed properties of source objects into the destination object. Source properties that resolve to undefined are skipped if a destination value exists. Array and plain object properties are merged recursively. Other objects and value types are overridden by assignment. Source objects are applied from left to right. Subsequent sources overwrite property assignments of previous sources.
+
+```js
+var object = {
+  'a': [{ 'b': 2 }, { 'd': 4 }]
+};
+ 
+var other = {
+  'a': [{ 'c': 3 }, { 'e': 5 }]
+};
+ 
+_.merge(object, other);
+// => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }
+```
+
+#### **_.omit(object, [paths])**
+
+The opposite of `_.pick`; this method creates an object composed of the own and inherited enumerable property paths of object that are not omitted.
+
+**Note**: This method is considerably slower than `_.pick`.
+
+```js
+var object = { 'a': 1, 'b': '2', 'c': 3 };
+ 
+_.omit(object, ['a', 'c']);
+// => { 'b': '2' }
+```
+
+#### **_.pick(object, [paths])**
+
+Creates an object composed of the picked object properties.
+
+```js
+var object = { 'a': 1, 'b': '2', 'c': 3 };
+ 
+_.pick(object, ['a', 'c']);
+// => { 'a': 1, 'c': 3 }
+```
+
+#### **_.set(object, path, value)**
+
+Sets the value at path of object. If a portion of path doesn't exist, it's created. Arrays are created for missing index properties while objects are created for all other missing properties. Use _.setWith to customize path creation.
+
+**Note**: This method mutates object.
+
+```js
+var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ 
+_.set(object, 'a[0].b.c', 4);
+console.log(object.a[0].b.c);
+// => 4
+ 
+_.set(object, ['x', '0', 'y', 'z'], 5);
+console.log(object.x[0].y.z);
+// => 5
+```
+
+#### **_.toPairs(object)**
+
+Creates an array of own enumerable string keyed-value pairs for object which can be consumed by _.fromPairs. If object is a map or set, its entries are returned.
+
+
+```js
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.toPairs(new Foo);
+// => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
 ```
