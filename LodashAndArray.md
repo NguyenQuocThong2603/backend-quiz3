@@ -72,6 +72,9 @@
     * [_.omit](#_omitobject-paths)
     * [_.pick](#_pickobject-paths)
     * [_.set](#_setobject-path-value)
+    * [_.toPairs](#_topairsobject)
+    * [_.transform](#_transformobject-iteratee--_identity-accumulator)
+    * [_.unset](#_unsetobject-path)
 
 ## Array
 
@@ -1040,7 +1043,6 @@ console.log(object.x[0].y.z);
 
 Creates an array of own enumerable string keyed-value pairs for object which can be consumed by _.fromPairs. If object is a map or set, its entries are returned.
 
-
 ```js
 function Foo() {
   this.a = 1;
@@ -1051,4 +1053,81 @@ Foo.prototype.c = 3;
  
 _.toPairs(new Foo);
 // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
+```
+
+#### **_.transform(object, [iteratee = _.identity], [accumulator])**
+
+An alternative to `_.reduce`; this method transforms object to a new accumulator object which is the result of running each of its own enumerable string keyed properties thru iteratee, with each invocation potentially mutating the accumulator object. If accumulator is not provided, a new object with the same [[Prototype]] will be used. The iteratee is invoked with four arguments: (accumulator, value, key, object). Iteratee functions may exit iteration early by explicitly returning false.
+
+```js
+_.transform([2, 3, 4], function(result, n) {
+  result.push(n *= n);
+  return n % 2 == 0;
+}, []);
+// => [4, 9]
+ 
+_.transform({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+  (result[value] || (result[value] = [])).push(key);
+}, {});
+// => { '1': ['a', 'c'], '2': ['b'] }
+```
+
+#### **_.unset(object, path)**
+
+Removes the property at path of object.
+
+**Note**: This method mutates object.
+
+```js
+var object = { 'a': [{ 'b': { 'c': 7 } }] };
+_.unset(object, 'a[0].b.c');
+// => true
+ 
+console.log(object);
+// => { 'a': [{ 'b': {} }] };
+ 
+_.unset(object, ['a', '0', 'b', 'c']);
+// => true
+ 
+console.log(object);
+// => { 'a': [{ 'b': {} }] };
+```
+
+#### **_.update(object, path, updater)**
+
+This method is like `_.set` except that accepts updater to produce the value to set. Use _.updateWith to customize path creation. The updater is invoked with one argument: (value).
+
+**Note**: This method mutates object.
+
+```js
+var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ 
+_.update(object, 'a[0].b.c', function(n) { return n * n; });
+console.log(object.a[0].b.c);
+// => 9
+ 
+_.update(object, 'x[0].y.z', function(n) { return n ? n + 1 : 0; });
+console.log(object.x[0].y.z);
+// => 0
+```
+
+#### **_.values(object)**
+
+Creates an array of the own enumerable string keyed property values of object.
+
+**Note**: Non-object values are coerced to objects.
+
+```js
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.values(new Foo);
+// => [1, 2] (iteration order is not guaranteed)
+ 
+_.values('hi');
+// => ['h', 'i']
 ```
