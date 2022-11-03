@@ -75,6 +75,20 @@
     * [_.toPairs](#_topairsobject)
     * [_.transform](#_transformobject-iteratee--_identity-accumulator)
     * [_.unset](#_unsetobject-path)
+  * [Lodash Collection Methods](#lodash-collection-methods)
+    * [_.countBy](#_countbycollection-iteratee--_identity)
+    * [_.forEach](#_foreachcollection-iteratee--_identity)
+    * [_.groupBy](#_groupbycollection-iteratee--_identity)
+    * [_.includes](#_includescollection-valuefromindex--0)
+    * [_.invokeMap](#_invokemapcollection-pathargs)
+    * [_.map](#_mapcollection-iteratee--_identity)
+    * [_.orderBy](#orderbycollection-iteratees--identityorders)
+    * [_.partition](#_partitioncollection-predicate--_identity)
+    * [_.reduce](#_reducecollection-iteratee--_identity-accumulator)
+    * [_.reject](#_rejectcollection-predicate--_identity)
+    * [_.sampleSize](#_samplesizecollection-n1)
+    * [_.size](#_sizecollection)
+    * [_.some](#_somecollection-predicate---_identity)
 
 ## Array
 
@@ -1130,4 +1144,251 @@ _.values(new Foo);
  
 _.values('hi');
 // => ['h', 'i']
+```
+
+> ### Lodash Collection Methods
+
+#### **_.countBy(collection, [iteratee = _.identity])**
+
+Creates an object composed of keys generated from the results of running each element of collection thru iteratee. The corresponding value of each key is the number of times the key was returned by iteratee. The iteratee is invoked with one argument: (value).
+
+```js
+_.countBy([6.1, 4.2, 6.3], Math.floor);
+// => { '4': 1, '6': 2 }
+ 
+// The `_.property` iteratee shorthand.
+_.countBy(['one', 'two', 'three'], 'length');
+// => { '3': 2, '5': 1 }
+```
+
+#### **_.forEach(collection, [iteratee = _.identity])**
+
+Iterates over elements of collection and invokes iteratee for each element. The iteratee is invoked with three arguments: (value, index|key, collection). Iteratee functions may exit iteration early by explicitly returning false.
+
+**Note**: As with other "Collections" methods, objects with a "length" property are iterated like arrays. To avoid this behavior use `_.forIn` or `_.forOwn` for object iteration.
+
+```js
+_.forEach([1, 2], function(value) {
+  console.log(value);
+});
+// => Logs `1` then `2`.
+ 
+_.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
+  console.log(key);
+});
+// => Logs 'a' then 'b' (iteration order is not guaranteed).
+```
+
+#### **_.groupBy(collection, [iteratee = _.identity])**
+
+Creates an object composed of keys generated from the results of running each element of collection thru iteratee. The order of grouped values is determined by the order they occur in collection. The corresponding value of each key is an array of elements responsible for generating the key. The iteratee is invoked with one argument: (value).
+
+```js
+_.groupBy([6.1, 4.2, 6.3], Math.floor);
+// => { '4': [4.2], '6': [6.1, 6.3] }
+ 
+// The `_.property` iteratee shorthand.
+_.groupBy(['one', 'two', 'three'], 'length');
+// => { '3': ['one', 'two'], '5': ['three'] }
+```
+
+#### **_.includes(collection, value,[fromIndex = 0])**
+
+Checks if value is in collection. If collection is a string, it's checked for a substring of value, otherwise SameValueZero is used for equality comparisons. If fromIndex is negative, it's used as the offset from the end of collection.
+
+```js
+_.includes([1, 2, 3], 1);
+// => true
+ 
+_.includes([1, 2, 3], 1, 2);
+// => false
+ 
+_.includes({ 'a': 1, 'b': 2 }, 1);
+// => true
+ 
+_.includes('abcd', 'bc');
+// => true
+```
+
+#### **_.invokeMap(collection, path,[args])**
+
+Invokes the method at path of each element in collection, returning an array of the results of each invoked method. Any additional arguments are provided to each invoked method. If path is a function, it's invoked for, and this bound to, each element in collection.
+
+```js
+_.invokeMap([[5, 1, 7], [3, 2, 1]], 'sort');
+// => [[1, 5, 7], [1, 2, 3]]
+ 
+_.invokeMap([123, 456], String.prototype.split, '');
+// => [['1', '2', '3'], ['4', '5', '6']]
+```
+
+#### **_.map(collection, [iteratee = _.identity])**
+
+Creates an array of values by running each element in collection thru iteratee. The iteratee is invoked with three arguments: (value, index|key, collection).
+
+```js
+function square(n) {
+  return n * n;
+}
+ 
+_.map([4, 8], square);
+// => [16, 64]
+ 
+_.map({ 'a': 4, 'b': 8 }, square);
+// => [16, 64] (iteration order is not guaranteed)
+ 
+var users = [
+  { 'user': 'barney' },
+  { 'user': 'fred' }
+];
+ 
+// The `_.property` iteratee shorthand.
+_.map(users, 'user');
+// => ['barney', 'fred']
+```
+
+#### **_.orderBy(collection, [iteratees = [_.identity]],[orders])**
+
+This method is like _.sortBy except that it allows specifying the sort orders of the iteratees to sort by. If orders is unspecified, all values are sorted in ascending order. Otherwise, specify an order of "desc" for descending or "asc" for ascending sort order of corresponding values.
+
+```js
+var users = [
+  { 'user': 'fred',   'age': 48 },
+  { 'user': 'barney', 'age': 34 },
+  { 'user': 'fred',   'age': 40 },
+  { 'user': 'barney', 'age': 36 }
+];
+ 
+// Sort by `user` in ascending order and by `age` in descending order.
+_.orderBy(users, ['user', 'age'], ['asc', 'desc']);
+// => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+```
+
+#### **_.partition(collection, [predicate = _.identity])**
+
+Creates an array of elements split into two groups, the first of which contains elements predicate returns truthy for, the second of which contains elements predicate returns falsey for. The predicate is invoked with one argument: (value).
+
+```js
+var users = [
+  { 'user': 'barney',  'age': 36, 'active': false },
+  { 'user': 'fred',    'age': 40, 'active': true },
+  { 'user': 'pebbles', 'age': 1,  'active': false }
+];
+ 
+_.partition(users, function(o) { return o.active; });
+// => objects for [['fred'], ['barney', 'pebbles']]
+ 
+// The `_.matches` iteratee shorthand.
+_.partition(users, { 'age': 1, 'active': false });
+// => objects for [['pebbles'], ['barney', 'fred']]
+ 
+// The `_.matchesProperty` iteratee shorthand.
+_.partition(users, ['active', false]);
+// => objects for [['barney', 'pebbles'], ['fred']]
+ 
+// The `_.property` iteratee shorthand.
+_.partition(users, 'active');
+// => objects for [['fred'], ['barney', 'pebbles']]
+```
+
+#### **_.reduce(collection, [iteratee = _.identity], [accumulator])**
+
+Reduces collection to a value which is the accumulated result of running each element in collection thru iteratee, where each successive invocation is supplied the return value of the previous. If accumulator is not given, the first element of collection is used as the initial value. The iteratee is invoked with four arguments: (accumulator, value, index|key, collection).  
+
+```js
+_.reduce([1, 2], function(sum, n) {
+  return sum + n;
+}, 0);
+// => 3
+ 
+_.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+  (result[value] || (result[value] = [])).push(key);
+  return result;
+}, {});
+// => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
+```
+
+#### **_.reject(collection, [predicate = _.identity])**
+
+The opposite of `_.filter`; this method returns the elements of collection that predicate does not return truthy for.
+
+```js
+var users = [
+  { 'user': 'barney', 'age': 36, 'active': false },
+  { 'user': 'fred',   'age': 40, 'active': true }
+];
+ 
+_.reject(users, function(o) { return !o.active; });
+// => objects for ['fred']
+ 
+// The `_.matches` iteratee shorthand.
+_.reject(users, { 'age': 40, 'active': true });
+// => objects for ['barney']
+ 
+// The `_.matchesProperty` iteratee shorthand.
+_.reject(users, ['active', false]);
+// => objects for ['fred']
+ 
+// The `_.property` iteratee shorthand.
+_.reject(users, 'active');
+// => objects for ['barney']
+```
+
+#### **_.sampleSize(collection, [n=1])**
+
+Gets n random elements at unique keys from collection up to the size of collection.
+
+```js
+_.sampleSize([1, 2, 3], 2);
+// => [3, 1]
+ 
+_.sampleSize([1, 2, 3], 4);
+// => [2, 3, 1]
+```
+
+#### **_.shuffle(collection)**
+
+Creates an array of shuffled values, using a version of the Fisher-Yates shuffle.
+
+```js
+_.shuffle([1, 2, 3, 4]);
+// => [4, 1, 3, 2]
+```
+
+#### **_.size(collection)**
+
+Gets the size of collection by returning its length for array-like values or the number of own enumerable string keyed properties for objects.
+
+```js
+_.size([1, 2, 3]);
+// => 3
+ 
+_.size({ 'a': 1, 'b': 2 });
+// => 2
+ 
+_.size('pebbles');
+// => 7
+```
+
+#### **_.some(collection, [predicate =  _.identity])**
+
+Checks if predicate returns truthy for any element of collection. Iteration is stopped once predicate returns truthy. The predicate is invoked with three arguments: (value, index|key, collection).
+
+```js
+var users = [
+  { 'user': 'barney', 'active': true },
+  { 'user': 'fred',   'active': false }
+];
+ 
+// The `_.matches` iteratee shorthand.
+_.some(users, { 'user': 'barney', 'active': false });
+// => false
+ 
+// The `_.matchesProperty` iteratee shorthand.
+_.some(users, ['active', false]);
+// => true
+ 
+// The `_.property` iteratee shorthand.
+_.some(users, 'active');
+// => true
 ```
