@@ -84,12 +84,12 @@ import _ from 'lodash';
 //   { name: 'Ben Smith', age: 35, favorites: ['craft', 'food'] }];
 // console.log(_.max(_.filter(array13, element => _.includes(element.favorites, 'food')), 'age').name);
 
-const array14 = [{ name: 'John Smith', age: 54, favorites: ['food', 'movies'] },
-  { name: 'Mary Smith', age: 42, favorites: ['food', 'travel'] },
-  { name: 'Peter Pan', age: 15, favorites: ['minecraft', 'pokemo'] },
-  { name: 'Joe Johnson', age: 46, favorites: ['travel', 'movies'] },
-  { name: 'Ben Smith', age: 35, favorites: ['craft', 'food'] }];
+// const array14 = [{ name: 'John Smith', age: 54, favorites: ['food', 'movies'] },
+//   { name: 'Mary Smith', age: 42, favorites: ['food', 'travel'] },
+//   { name: 'Peter Pan', age: 15, favorites: ['minecraft', 'pokemo'] },
+//   { name: 'Joe Johnson', age: 46, favorites: ['travel', 'movies'] },
+//   { name: 'Ben Smith', age: 35, favorites: ['craft', 'food'] }];
 
-const user = { name: 'sadsfdsf', age: 25 };
-_.unset(user, 'age');
-console.log(user);
+// const user = { name: 'sadsfdsf', age: 25 };
+// _.unset(user, 'age');
+// console.log(user);

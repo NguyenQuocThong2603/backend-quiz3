@@ -36,14 +36,14 @@ function findDefectiveCoin(scale) {
       return { index: coinRemainingOfGroup4CoinsNotWeighed, heavierOrLighter: HEAVIER };
     }
     // if the result of weighing 2 groups 3 coins is not equal
-    let isLeftHeavier = false;
+    let isLighter = false;
     const [coin1, coin2, coin3] = _.chunk(group3CoinsNotWeighed, 1);
     const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
     if (resultOf3CoinsLeft > resultOf3CoinsRight) {
-      isLeftHeavier = true;
+      isLighter = true;
     }
     // weigh 2 coin in group was'n weighed
-    return check3Coin(coin1, coin2, coin3, isLeftHeavier, resultCoinLeft, resultCoinRight);
+    return check3Coin(coin1, coin2, coin3, isLighter, resultCoinLeft, resultCoinRight);
   }
 
   // if the result of weighing 4 coins is not equal
@@ -96,13 +96,13 @@ function findDefectiveCoin(scale) {
   return { index: coin2, heavierOrLighter: LIGHTER };
 }
 
-function check3Coin(coin1, coin2, coin3, isLeftHeavier, resultCoinLeft, resultCoinRight) {
+function check3Coin(coin1, coin2, coin3, isLighter, resultCoinLeft, resultCoinRight) {
   if (resultCoinLeft === resultCoinRight) {
-    return isLeftHeavier ? { index: coin3, heavierOrLighter: LIGHTER } : { index: coin3, heavierOrLighter: HEAVIER };
+    return isLighter ? { index: coin3, heavierOrLighter: LIGHTER } : { index: coin3, heavierOrLighter: HEAVIER };
   }
   if (resultCoinLeft > resultCoinRight) {
-    return isLeftHeavier ? { index: coin2, heavierOrLighter: LIGHTER } : { index: coin1, heavierOrLighter: HEAVIER };
+    return isLighter ? { index: coin2, heavierOrLighter: LIGHTER } : { index: coin1, heavierOrLighter: HEAVIER };
   }
-  return isLeftHeavier ? { index: coin1, heavierOrLighter: LIGHTER } : { index: coin2, heavierOrLighter: HEAVIER };
+  return isLighter ? { index: coin1, heavierOrLighter: LIGHTER } : { index: coin2, heavierOrLighter: HEAVIER };
 }
-export default findDefectiveCoin;
+export { findDefectiveCoin, check3Coin };

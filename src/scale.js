@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import findDefectiveCoin from './findDefectiveCoin.js';
-import findDefectiveCoin2 from './findDefectiveCoin2.js';
+import { findDefectiveCoin2 } from './findDefectiveCoin2.js';
 
 const NUMBER_OF_COINS = 12;
 const NORMAL_WEIGHT = 1;

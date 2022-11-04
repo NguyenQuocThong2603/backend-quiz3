@@ -23,7 +23,18 @@
     * [Array.some()](#arraysome)
     * [Array.splice()](#arraysplice)
     * [Array.sort()](#arraysort)
-  
+
+* ## [Object](#object)
+
+  * [Methods](#object-methods)
+    * [Object.entries()](#objectentries)
+    * [Object.freeze](#objectfreeze)
+    * [Object.fromEntries](#objectfromentries)
+    * [Object.getOwnPropertyDescriptor](#objectgetownpropertydescriptor)
+    * [Object.getOwnPropertyNamea](#objectgetownpropertynames)
+    * [Object.hasOwn](#objecthasown)
+    * [Object.keys](#objectkeys)
+    * [Object.values](#objectvalues)
 * ## [Lodash](#lodash-1)  
   
   * [Lodash Array Methods](#lodash-array-methods)
@@ -419,6 +430,151 @@ const array1 = [1, 30, 4, 21, 100000];
 array1.sort();
 console.log(array1);
 // expected output: Array [1, 100000, 21, 30, 4]
+```
+
+## Object
+
+> ### Object Methods
+
+#### **Object.entries()**
+
+The `Object.entries()` method returns an array of a given object's own enumerable string-keyed property [key, value] pairs. This is the same as iterating with a for...in loop, except that a for...in loop enumerates properties in the prototype chain as well.
+
+The order of the array returned by `Object.entries()` is the same as that provided by a `for...in` loop. If there is a need for different ordering, then the array should be sorted first, like `Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));`.
+
+```js
+const object1 = {
+  a: 'somestring',
+  b: 42
+};
+
+for (const [key, value] of Object.entries(object1)) {
+  console.log(`${key}: ${value}`);
+}
+
+// expected output:
+// "a: somestring"
+// "b: 42"
+```
+
+#### **Object.freeze()**
+
+The `Object.freeze()` method freezes an object. Freezing an object prevents extensions and makes existing properties non-writable and non-configurable. A frozen object can no longer be changed: new properties cannot be added, existing properties cannot be removed, their enumerability, configurability, writability, or value cannot be changed, and the object's prototype cannot be re-assigned. `freeze()` returns the same object that was passed in.
+
+Freezing an object is the highest integrity level that JavaScript provides.
+
+```js
+const obj = {
+  prop: 42
+};
+
+Object.freeze(obj);
+
+obj.prop = 33;
+// Throws an error in strict mode
+
+console.log(obj.prop);
+// expected output: 42
+```
+
+#### **Object.fromEntries()**
+
+The `Object.fromEntries()` method transforms a list of key-value pairs into an object.
+
+```js
+const entries = new Map([
+  ['foo', 'bar'],
+  ['baz', 42]
+]);
+
+const obj = Object.fromEntries(entries);
+
+console.log(obj);
+// expected output: Object { foo: "bar", baz: 42 }
+```
+
+#### **Object.getOwnPropertyDescriptor()**
+
+The `Object.getOwnPropertyDescriptor()` method returns an object describing the configuration of a specific property on a given object (that is, one directly present on an object and not in the object's prototype chain). The object returned is mutable but mutating it has no effect on the original property's configuration.
+
+```js
+const object1 = {
+  property1: 42
+};
+
+const descriptor1 = Object.getOwnPropertyDescriptor(object1, 'property1');
+
+console.log(descriptor1.configurable);
+// expected output: true
+
+console.log(descriptor1.value);
+// expected output: 42
+```
+
+#### **Object.getOwnPropertyNames()**
+
+The `Object.getOwnPropertyNames()` method returns an array of all properties (including non-enumerable properties except for those which use Symbol) found directly in a given object.
+
+```js
+const object1 = {
+  a: 1,
+  b: 2,
+  c: 3
+};
+
+console.log(Object.getOwnPropertyNames(object1));
+// expected output: Array ["a", "b", "c"]
+```
+
+#### **Object.hasOwn()**
+
+The `Object.hasOwn()` static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false.
+
+```js
+const object1 = {
+  prop: 'exists'
+};
+
+console.log(Object.hasOwn(object1, 'prop'));
+// expected output: true
+
+console.log(Object.hasOwn(object1, 'toString'));
+// expected output: false
+
+console.log(Object.hasOwn(object1, 'undeclaredPropertyValue'));
+// expected output: false
+```
+
+#### **Object.keys()**
+
+The `Object.keys()` method returns an array of a given object's own enumerable property names, iterated in the same order that a normal loop would.
+
+```js
+const object1 = {
+  a: 'somestring',
+  b: 42,
+  c: false
+};
+
+console.log(Object.keys(object1));
+// expected output: Array ["a", "b", "c"]
+
+```
+
+#### **Object.values()**
+
+The `Object.values()` method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop. (The only difference is that a for...in loop enumerates properties in the prototype chain as well.)
+
+```js
+const object1 = {
+  a: 'somestring',
+  b: 42,
+  c: false
+};
+
+console.log(Object.values(object1));
+// expected output: Array ["somestring", 42, false]
+
 ```
 
 ## Lodash

@@ -48,7 +48,6 @@ function check3Coin(scale, result3CoinsLeft, result3CoinsRight, group) {
 
   const [coin1, coin2, coin3] = _.chunk(group);
   const { left: resultCoinLeft, right: resultCoinRight } = scale.weigh(coin1, coin2);
-
   if (resultCoinLeft === resultCoinRight) {
     return isLeftHeavier ? { index: coin3, heavierOrLighter: LIGHTER } : { index: coin3, heavierOrLighter: HEAVIER };
   }
@@ -69,4 +68,4 @@ function check3CoinKnowHeavierOrLighter(scale, isHeavier, group) {
   }
   return isHeavier ? { index: coin2, heavierOrLighter: HEAVIER } : { index: coin1, heavierOrLighter: LIGHTER };
 }
-export default findDefectiveCoin2;
+export { findDefectiveCoin2, check3Coin, check3CoinKnowHeavierOrLighter };
